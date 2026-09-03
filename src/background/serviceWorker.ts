@@ -26,7 +26,17 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.action === 'OPEN_COMPILER') {
-    chrome.tabs.create({ url: chrome.runtime.getURL('src/compiler/compiler.html') });
-    sendResponse({ success: true });
+    const compilerUrl = chrome.runtime.getURL('src/compiler/compiler.html');
+    chrome.tabs.query({ url: compilerUrl }, (tabs) => {
+      if (tabs.length > 0 && tabs[0].id) {
+        chrome.tabs.reload(tabs[0].id, () => {
+          chrome.tabs.update(tabs[0].id!, { active: true });
+        });
+      } else {
+        chrome.tabs.create({ url: compilerUrl });
+      }
+      sendResponse({ success: true });
+    });
+    return true;
   }
 });

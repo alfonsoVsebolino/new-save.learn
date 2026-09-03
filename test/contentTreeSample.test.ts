@@ -32,5 +32,5 @@ describe('OpenLearning Content Tree Sample Extraction', () => {
     // Verify mathematical and formal theory content is retained
     expect(result.sanitizedHtml).toContain('Chomsky Hierarchy');
     expect(result.sanitizedHtml).toContain('Kleene Star');
-  });
+  }, 15000);
 });

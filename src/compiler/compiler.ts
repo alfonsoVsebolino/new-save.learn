@@ -7,42 +7,29 @@ function escapeHtml(str: string): string {
   return div.innerHTML;
 }
 
-async function initCompiler(): Promise<void> {
+export async function renderDocument(): Promise<void> {
   const queue = await getQueue();
   const options = await getCompilerOptions();
 
-  const titleInput = document.getElementById('doc-title-input') as HTMLInputElement;
-  const mainTitle = document.getElementById('doc-main-title') as HTMLElement;
-  const metadataEl = document.getElementById('doc-metadata') as HTMLElement;
-  const countEl = document.getElementById('section-count') as HTMLElement;
-  const statusMsg = document.getElementById('status-msg') as HTMLElement;
-  const layoutSelect = document.getElementById('layout-select') as HTMLSelectElement;
-  const printBtn = document.getElementById('print-btn') as HTMLButtonElement;
-  const docContent = document.getElementById('doc-content') as HTMLElement;
+  const metadataEl = document.getElementById('doc-metadata') as HTMLElement | null;
+  const countEl = document.getElementById('section-count') as HTMLElement | null;
+  const statusMsg = document.getElementById('status-msg') as HTMLElement | null;
+  const layoutSelect = document.getElementById('layout-select') as HTMLSelectElement | null;
+  const docContent = document.getElementById('doc-content') as HTMLElement | null;
 
-  if (options.layout) {
+  if (layoutSelect && options.layout) {
     layoutSelect.value = options.layout;
     setLayout(options.layout);
   }
 
-  countEl.textContent = `${queue.length} section${queue.length === 1 ? '' : 's'}`;
-  metadataEl.textContent = `Generated on ${new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} • ${queue.length} Sections`;
+  if (countEl) {
+    countEl.textContent = `${queue.length} section${queue.length === 1 ? '' : 's'}`;
+  }
+  if (metadataEl) {
+    metadataEl.textContent = `Generated on ${new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} • ${queue.length} Sections`;
+  }
 
-  titleInput.addEventListener('input', () => {
-    const val = titleInput.value.trim() || 'Compiled Academic Notes';
-    mainTitle.textContent = val;
-    document.title = `${val} - Academic PDF`;
-  });
-
-  layoutSelect.addEventListener('change', async () => {
-    const layout = layoutSelect.value as 'single-column' | 'two-column';
-    setLayout(layout);
-    await saveCompilerOptions({ layout });
-  });
-
-  printBtn.addEventListener('click', () => {
-    window.print();
-  });
+  if (!docContent || !statusMsg) return;
 
   if (queue.length === 0) {
     statusMsg.textContent = 'Queue is empty';
@@ -57,6 +44,31 @@ async function initCompiler(): Promise<void> {
 
   renderSections(queue, docContent);
   statusMsg.textContent = 'Ready to print';
+}
+
+export function initCompiler(): void {
+  const titleInput = document.getElementById('doc-title-input') as HTMLInputElement | null;
+  const mainTitle = document.getElementById('doc-main-title') as HTMLElement | null;
+  const layoutSelect = document.getElementById('layout-select') as HTMLSelectElement | null;
+  const printBtn = document.getElementById('print-btn') as HTMLButtonElement | null;
+
+  titleInput?.addEventListener('input', () => {
+    const val = titleInput.value.trim() || 'Compiled Academic Notes';
+    if (mainTitle) mainTitle.textContent = val;
+    document.title = `${val} - Academic PDF`;
+  });
+
+  layoutSelect?.addEventListener('change', async () => {
+    const layout = layoutSelect.value as 'single-column' | 'two-column';
+    setLayout(layout);
+    await saveCompilerOptions({ layout });
+  });
+
+  printBtn?.addEventListener('click', () => {
+    window.print();
+  });
+
+  renderDocument();
 }
 
 function setLayout(layout: 'single-column' | 'two-column'): void {
@@ -84,4 +96,26 @@ function renderSections(queue: QueuedSection[], container: HTMLElement): void {
   container.innerHTML = htmlParts.join('\n');
 }
 
-document.addEventListener('DOMContentLoaded', initCompiler);
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompiler);
+  } else {
+    initCompiler();
+  }
+
+  window.addEventListener('pageshow', () => {
+    renderDocument();
+  });
+
+  window.addEventListener('focus', () => {
+    renderDocument();
+  });
+}
+
+if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && (changes.openlearning_queue || changes.openlearning_compiler_options)) {
+      renderDocument();
+    }
+  });
+}

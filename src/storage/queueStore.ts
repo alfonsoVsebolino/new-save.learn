@@ -83,10 +83,10 @@ export async function updateSectionTitle(id: string, newTitle: string): Promise<
 }
 
 export async function clearQueue(): Promise<void> {
+  memoryQueue = [];
   if (isChromeStorageAvailable()) {
     await chrome.storage.local.remove([STORAGE_KEY]);
-  } else {
-    memoryQueue = [];
+    await chrome.storage.local.set({ [STORAGE_KEY]: [] });
   }
 }
 
