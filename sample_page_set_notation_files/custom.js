@@ -1,7 +1,0 @@
-//jQuery.noConflict();
-JS.require('jQuery', '$.fn.tooltip', function() {
-    jQuery(document).ready(function($) {
-        // TOOLTIP ACTIVATION
-        jQuery("[data-toggle='tooltip']").tooltip();
-    });
-});
