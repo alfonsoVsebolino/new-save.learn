@@ -1,0 +1,698 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCAUTOMATA - Week 1: Introduction to Automata Theory</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #319795;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+
+            /* Box callout theme colors */
+            --remember-bg: #fff5f5;
+            --remember-border: #e53e3e;
+            --example-bg: #f0fff4;
+            --example-border: #38a169;
+            --tip-bg: #ebf8ff;
+            --tip-border: #3182ce;
+            --mistake-bg: #fffaf0;
+            --mistake-border: #dd6b20;
+            --dyk-bg: #faf5ff;
+            --dyk-border: #805ad5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        header h2 {
+            margin: 0.5rem 0 0 0;
+            font-weight: 400;
+            font-size: 1.2rem;
+            color: #cbd5e0;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .topic-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .topic-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        h4 {
+            color: var(--secondary-color);
+            margin-top: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #edf2f7;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn:disabled {
+            background-color: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .topic-indicator {
+            font-size: 0.95rem;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        /* Pedagogical Box Layouts */
+        .box {
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .box-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .box.remember {
+            background-color: var(--remember-bg);
+            border-left-color: var(--remember-border);
+        }
+
+        .box.remember .box-title {
+            color: var(--remember-border);
+        }
+
+        .box.example {
+            background-color: var(--example-bg);
+            border-left-color: var(--example-border);
+        }
+
+        .box.example .box-title {
+            color: var(--example-border);
+        }
+
+        .box.tip {
+            background-color: var(--tip-bg);
+            border-left-color: var(--tip-border);
+        }
+
+        .box.tip .box-title {
+            color: var(--tip-border);
+        }
+
+        .box.mistake {
+            background-color: var(--mistake-bg);
+            border-left-color: var(--mistake-border);
+        }
+
+        .box.mistake .box-title {
+            color: var(--mistake-border);
+        }
+
+        .box.dyk {
+            background-color: var(--dyk-bg);
+            border-left-color: var(--dyk-border);
+        }
+
+        .box.dyk .box-title {
+            color: var(--dyk-border);
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: #b83280;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        ul,
+        ol {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.6rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>NATIONAL UNIVERSITY – LIPA</h1>
+        <h2>Bachelor of Science in Computer Science</h2>
+        <div style="margin-top: 0.75rem; font-weight: 600; letter-spacing: 1px;">CCAUTOMATA – AUTOMATA THEORY AND FORMAL
+            LANGUAGES</div>
+        <div style="font-size: 0.95rem; color: #cbd5e0; margin-top: 0.3rem;">Course Instructor: Mr. Jayson T. Guia[cite:
+            11]</div>
+    </header>
+
+    <div class="container">
+
+        <!-- TOPIC 1: Module Info & Instructions -->
+        <section id="topic-1" class="topic-section">
+            <h3>1. Module Overview &amp; Guidelines</h3>
+            <p>Welcome to your first student learning module in <strong>Automata Theory and Formal
+                    Languages</strong>[cite: 11]. If the word "automata" sounds intimidating, don't worry—by the end of
+                this track, you will see that it simply describes abstract rule-following frameworks that power modern
+                language compilation, validation, and execution processes[cite: 11].</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Field</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Course Tag</strong></td>
+                        <td>CCAUTOMATA[cite: 11]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Target Year</strong></td>
+                        <td>BSCS 3rd Year Students[cite: 11]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Week / Topic</strong></td>
+                        <td>Week 1 – Introduction to Automata Theory[cite: 11]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Core Scopes</strong></td>
+                        <td>Theory of Computation, Turing Foundations, Chomsky Hierarchy, Language Grammars, Alphabets
+                            &amp; String Operations[cite: 11]</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>This module functions as a complete self-contained learning guide[cite: 11]. You do not need to cycle
+                back to physical classroom presentation slides[cite: 11]. Every structural component leverages intuitive
+                contextual examples to parse formal definitions[cite: 11]. Focus on completing the embedded analytical
+                and computational challenges honestly[cite: 11].</p>
+        </section>
+
+        <!-- TOPIC 2: Introduction to Automata -->
+        <section id="topic-2" class="topic-section active">
+            <h3>2. Introduction to Automata Theory</h3>
+            <h4>Why Should You Care About Automata?</h4>
+            <p>Think about a standard retail vending machine[cite: 11]. It processes coin inputs, changes states based
+                on running balance values, evaluates button clicks, and dispatches chosen products[cite: 11]. The system
+                operates without human cognitive intervention; it implements strict state transition tables[cite: 11].
+                This predictable sequential behavior forms the basis of abstract automata modeling[cite: 11].</p>
+
+            <p>Automata theory handles computational structural foundations—including compiling steps, regular
+                expression scanners, tokenization parsers, and pattern match logic[cite: 11]. Understanding it helps you
+                map out exactly what tasks computer engines can perform, and what limitations they can never
+                bypass[cite: 11].</p>
+
+            <div class="box definition" style="background-color: #f7fafc; border-left: 5px solid var(--primary-color);">
+                <div class="box-title" style="color: var(--primary-color);">Formal Definition</div>
+                <p><strong>Automata Theory</strong> is the study of abstract, self-propelled computing devices
+                    (automata) that follow predetermined sequence routines automatically to isolate patterns or resolve
+                    structural languages[cite: 11].</p>
+            </div>
+
+            <div class="box remember">
+                <div class="box-title">Remember</div>
+                <p>An automaton is not necessarily a physical machine[cite: 11]. It is an abstract mathematical
+                    framework consisting of explicit validation rules and states[cite: 11]. A flowchart rendered on a
+                    sheet of paper is just as valid a representation as physical integrated circuits[cite: 11].</p>
+            </div>
+
+            <h4>The Core Computational Dimensions</h4>
+            <ul>
+                <li><strong>Computability:</strong> Addresses whether an engine can resolve an abstract problem given
+                    arbitrary limits on time and processing resources[cite: 11].</li>
+                <li><strong>Complexity:</strong> Examines processing performance efficiency boundaries, balancing time
+                    requirements against architectural memory footprints[cite: 11].</li>
+            </ul>
+
+            <div class="box tip">
+                <div class="box-title">Tip</div>
+                <p>A simple way to keep them straight: <strong>Computability</strong> asks <em>"Can it be done at
+                        all?"</em> while <strong>Complexity</strong> asks <em>"How fast or efficiently can it
+                        run?"</em>[cite: 11]</p>
+            </div>
+
+            <div class="box example">
+                <div class="box-title">Example Analysis</div>
+                <p><strong>Problem:</strong> Can a basic automaton toggle a binary light indicator state dynamically
+                    based on user push buttons?[cite: 11]</p>
+                <p><strong>Solution:</strong> Yes[cite: 11]. The application features a finite situational architecture
+                    (ON and OFF states) tied to predictable input trigger changes[cite: 11]. It demands zero continuous
+                    state updates or historical context tracking, making it an ideal candidate for finite state machine
+                    layout design[cite: 11].</p>
+            </div>
+
+            <div class="box mistake">
+                <div class="box-title">Common Mistake</div>
+                <p>Do not presume that "automaton" implies robotic hardware or mechanical bodies[cite: 11]. For testing
+                    frameworks, remember it is a purely mathematical construct that can be easily detailed using tables,
+                    state maps, or regular expressions[cite: 11].</p>
+            </div>
+        </section>
+
+        <!-- TOPIC 3: History & Alan Turing -->
+        <section id="topic-3" class="topic-section">
+            <h3>3. Computation Timeline &amp; Alan Turing</h3>
+            <p>Automata concepts emerged directly out of pure mathematics decades before actual physical computers were
+                developed using electronic circuits[cite: 11].</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Period</th>
+                        <th style="width: 45%;">Historical Milestone</th>
+                        <th>Educational Significance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1930s</strong></td>
+                        <td>Alan Turing abstracts infinite storage tapes (Turing Machines)[cite: 11]. Proves
+                            decidability bounds via the Halting Problem[cite: 11].</td>
+                        <td>Establishes the permanent theoretical limits of programmable software computation
+                            engines[cite: 11].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1940s–1950s</strong></td>
+                        <td>Finite state machines are formalized[cite: 11]. Noam Chomsky introduces structured grammar
+                            groupings for tracking language complexity scales[cite: 11].</td>
+                        <td>Delivers the standard syntax classifications and compiler baseline models used today[cite:
+                            11].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1969</strong></td>
+                        <td>Stephen Cook introduces computational intractability and definitions for NP-hard
+                            parameters[cite: 11].</td>
+                        <td>Establishes modern algorithm boundaries to determine practically solvable processing
+                            jobs[cite: 11].</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>The Turing Machine Framework</h4>
+            <p>Alan Turing abstracted a processing assembly consisting of an infinite cell tape coupled to a read-write
+                control head[cite: 11]. The head parses individual cells, overwrites layout text, and moves left or
+                right depending on its current state configuration[cite: 11]. Despite its simplicity, this blueprint
+                simulates any algorithm run by modern microprocessors (the <strong>Church-Turing Thesis</strong>)[cite:
+                11].</p>
+
+            <div class="box remember">
+                <div class="box-title">Decidability Boundaries</div>
+                <p>A problem is <strong>decidable</strong> if an algorithm can be built that guarantees a correct
+                    boolean verification output (Yes/No) for any given input sequence in finite time[cite: 11]. If a
+                    foolproof algorithm cannot exist, the challenge is <strong>undecidable</strong>[cite: 11].</p>
+                <p>The <strong>Halting Problem</strong> (determining if an arbitrary program will terminate or loop
+                    endlessly) is the definitive example of an undecidable problem[cite: 11].</p>
+            </div>
+
+            <div class="box dyk">
+                <div class="box-title">Did You Know?</div>
+                <p>Alan Turing also proposed the <strong>Turing Test</strong> in 1950 to evaluate synthetic cognitive
+                    behavior[cite: 11]. If an evaluation judge cannot reliably separate an algorithm text exchange from
+                    a real human dialogue, the software successfully demonstrates artificial intelligence behavior[cite:
+                    11].</p>
+            </div>
+        </section>
+
+        <!-- TOPIC 4: Languages & Grammars -->
+        <section id="topic-4" class="topic-section">
+            <h3>4. Languages and Grammars</h3>
+            <p>In formal language theory, the terms "Language" and "Grammar" follow precise mathematical
+                definitions[cite: 11].</p>
+
+            <h4>What is a Language?</h4>
+            <p>A <strong>Language</strong> is simply a set—a collection—of finite-length strings constructed using
+                characters drawn from an isolated, fixed alphabet[cite: 11]. While the length of any individual string
+                inside the set must be finite, the language itself can contain an infinite number of valid
+                combinations[cite: 11].</p>
+
+            <h4>What is a Grammar?</h4>
+            <p>A <strong>Grammar</strong> is a production engine comprising strict substitution rules that generate all
+                acceptable string sequences belonging to a specific target language—and nothing else[cite: 11].</p>
+
+            <div class="box remember">
+                <div class="box-title">Core Analogy Balance</div>
+                <ul>
+                    <li><strong>Language:</strong> The absolute destination (the complete checklist of valid string
+                        items)[cite: 11].</li>
+                    <li><strong>Grammar:</strong> The blueprint roadmap (the rule engine applied to construct those
+                        strings correctly)[cite: 11].</li>
+                </ul>
+            </div>
+
+            <div class="box example">
+                <div class="box-title">Example Specification</div>
+                <p>Given the character alphabet <code>Σ = {a, b}</code>, let's declare a target language
+                    <code>L = "all strings that begin with character a"</code>[cite: 11].</p>
+                <ul>
+                    <li><strong>Valid Members:</strong> <code>a</code>, <code>aa</code>, <code>ab</code>,
+                        <code>aaa</code>, <code>aab</code>[cite: 11]</li>
+                    <li><strong>Invalid Members:</strong> <code>b</code>, <code>ba</code>, <code>bb</code>,
+                        <code>bba</code> (rejected because they violate the structural definition)[cite: 11]</li>
+                </ul>
+            </div>
+
+            <div class="box mistake">
+                <div class="box-title">Common Mistake</div>
+                <p>Never conflate an active target <strong>Language</strong> with its foundational
+                    <strong>Alphabet</strong>[cite: 11]. The alphabet provides the raw symbol tiles (e.g.,
+                    <code>{0, 1}</code>)[cite: 11]. The language is the specific, chosen subset of strings compiled from
+                    those characters based on design rules[cite: 11].</p>
+            </div>
+        </section>
+
+        <!-- TOPIC 5: The Chomsky Hierarchy -->
+        <section id="topic-5" class="topic-section">
+            <h3>5. The Chomsky Hierarchy</h3>
+            <p>Not all formal languages require the same level of computing power to process[cite: 11]. Linguist Noam
+                Chomsky organized formal structures into four nested categories based on the layout complexity of their
+                grammar patterns[cite: 11]. Each category directly corresponds to an abstract machine architecture[cite:
+                11].</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hierarchy Tier</th>
+                        <th>Grammar / Language Class</th>
+                        <th>Target Automaton</th>
+                        <th>Memory / Behavioral Framework</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Type 3</strong> (Innermost)</td>
+                        <td>Regular Languages[cite: 11]</td>
+                        <td>Finite Automaton (DFA / NFA)[cite: 11]</td>
+                        <td>Vending machine framework. Fixed state memory without tracking historic depth[cite: 11].
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 2</strong></td>
+                        <td>Context-Free Languages[cite: 11]</td>
+                        <td>Pushdown Automaton (PDA)[cite: 11]</td>
+                        <td>Stack storage allocation. Tracks operations using Last-In, First-Out (LIFO) pipelines[cite:
+                            11].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 1</strong></td>
+                        <td>Context-Sensitive Languages[cite: 11]</td>
+                        <td>Linear Bounded Automaton (LBA)[cite: 11]</td>
+                        <td>Bounded notebook. Expanded data track workspace restricted by input sequence length[cite:
+                            11].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 0</strong> (Outermost)</td>
+                        <td>Recursively Enumerable[cite: 11]</td>
+                        <td>Turing Machine (TM)[cite: 11]</td>
+                        <td>Infinite memory capability. Complete programmatic freedom without processing scale
+                            limits[cite: 11].</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="box remember">
+                <div class="box-title">Containment Rule</div>
+                <p>The hierarchy functions like a Russian nesting doll system[cite: 11]. Every Regular language is
+                    automatically Context-Free; every Context-Free structure is instantly Context-Sensitive, and so
+                    on[cite: 11]. The inverse relationship is not true—a Context-Free language might be far too complex
+                    to map with a basic Finite Automaton[cite: 11].</p>
+            </div>
+
+            <div class="box dyk">
+                <div class="box-title">Did You Know?</div>
+                <p>Chomsky generated this structural map in the 1950s to analyze natural human languages like
+                    English[cite: 11]. Computer scientists adopted the hierarchy because it elegantly models programming
+                    language syntax rules and compiler parsing steps[cite: 11].</p>
+            </div>
+        </section>
+
+        <!-- TOPIC 6: Alphabets, Strings, and Powers -->
+        <section id="topic-6" class="topic-section">
+            <h3>6. Alphabets, Strings, and Powers</h3>
+
+            <h4>1. Defining an Alphabet (Σ)</h4>
+            <p>An alphabet is a finite, non-empty set of distinct computational symbols[cite: 11].</p>
+            <ul>
+                <li>Binary alphabet: <code>Σ = {0, 1}</code>[cite: 11]</li>
+                <li>DNA alphabet: <code>Σ = {a, c, g, t}</code>[cite: 11]</li>
+            </ul>
+            <p>Symbols are either <strong>permissible</strong> (found within the declared set) or
+                <strong>non-permissible</strong> (outside the current alphabet scope)[cite: 11].</p>
+
+            <h4>2. Defining a String</h4>
+            <p>A string is an ordered, finite sequence of characters chosen directly from an alphabet
+                <code>Σ</code>[cite: 11]. The unique string containing zero symbols is the <strong>empty
+                    string</strong>, annotated as <code>ε</code> (epsilon) or <code>λ</code> (lambda)[cite: 11]. Length
+                tracking is represented via vertical bars (<code>|w|</code>)[cite: 11]. The empty string length is
+                explicitly <code>|ε| = 0</code>[cite: 11].</p>
+
+            <h4>3. Alphabet Powers &amp; Notations</h4>
+            <p>We analyze groupings of strings based on exponential indicators attached to our alphabet sets:</p>
+            <ul>
+                <li><code>Σᵏ</code> – The set containing all unique string variants matching <strong>exactly</strong>
+                    length <code>k</code>[cite: 11].</li>
+                <li><code>Σ*</code> (Kleene Star) – The infinite collection containing all possible strings of any
+                    length, <strong>including</strong> the empty string <code>ε</code>[cite: 11].</li>
+                <li><code>Σ⁺</code> – The infinite collection containing all possible strings of any length,
+                    <strong>excluding</strong> the empty string <code>ε</code>[cite: 11].</li>
+            </ul>
+
+            <div class="box remember">
+                <div class="box-title">Zero Power Property</div>
+                <p>Note that <code>Σ⁰ = {ε}</code>[cite: 11]. It is a set containing exactly one item: the empty
+                    string[cite: 11]. It is <strong>not</strong> an empty set <code>{}</code>[cite: 11]. Missing this
+                    distinction will cause errors when evaluating string unions[cite: 11].</p>
+            </div>
+
+            <div class="box example">
+                <div class="box-title">Worked Example</div>
+                <p>Given <code>Σ = {a, b}</code>, resolve <code>Σ²</code> elements[cite: 11].</p>
+                <p><strong>Solution:</strong> Compile every combination containing exactly two symbols:
+                    <code>Σ² = {aa, ab, ba, bb}</code>[cite: 11]. The count matches our cardinality equation:
+                    <code>(alphabet size)^k = 2² = 4</code>[cite: 11].</p>
+            </div>
+        </section>
+
+        <!-- TOPIC 7: String Operations & Practice -->
+        <section id="topic-7" class="topic-section">
+            <h3>7. String Operations &amp; Guided Practice</h3>
+            <p>To evaluate software tokens, compilers apply formal manipulation mechanics directly to sequence
+                strings[cite: 11]:</p>
+
+            <ul>
+                <li><strong>Concatenation:</strong> Chains two strings side-by-side (e.g., if <code>w = "abc"</code> and
+                    <code>x = "xyz"</code>, then <code>wx = "abcxyz"</code>)[cite: 11]. The length of the combined
+                    string always equals the sum of the parts: <code>|wx| = |w| + |x|</code>[cite: 11].</li>
+                <li><strong>Prefix:</strong> Any leading substring slice drawn from the start of a word, including
+                    <code>ε</code> and the complete word itself (e.g., for <code>"abc"</code>, prefixes are
+                    <code>{ε, a, ab, abc}</code>)[cite: 11].</li>
+                <li><strong>Suffix:</strong> Any trailing substring slice drawn from the end of a word, including
+                    <code>ε</code> and the full word itself (e.g., for <code>"abc"</code>, suffixes are
+                    <code>{c, bc, abc, ε}</code>)[cite: 11].</li>
+                <li><strong>Reverse (wʳ):</strong> Spells a target sequence backward (e.g., if <code>w = "abc"</code>,
+                    then <code>wʳ = "cba"</code>)[cite: 11].</li>
+                <li><strong>Palindrome:</strong> A unique symmetric string that reads identically forward and backward,
+                    such that <code>w = wʳ</code> (e.g., <code>"noon"</code>)[cite: 11].</li>
+            </ul>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+            <h3>Classroom Guided Walkthrough Activity</h3>
+            <p>Review the application data variables below and trace their mechanical transformations step-by-step[cite:
+                11]:</p>
+            <p style="text-align: center;"><code>A = "NU"</code> &nbsp;|&nbsp; <code>B = "Lipa"</code> &nbsp;|&nbsp;
+                <code>C = "Computer Science"</code>[cite: 11]</p>
+
+            <div class="box example">
+                <div class="box-title">Task Checklist &amp; Solutions</div>
+
+                <p><strong>Task 1: Resolve Length(C)</strong><br>
+                    <em>Rule:</em> Count letters only (ignoring interstitial spaces for this specific activity
+                    rule)[cite: 11].<br>
+                    <code>"Computer" (8) + "Science" (7) = 15</code>. Therefore, <code>|C| = 15</code>[cite: 11].
+                </p>
+
+                <p><strong>Task 2: List Suffix(B)</strong><br>
+                    Extract trailing components from right to left starting from <code>"Lipa"</code>[cite: 11].<br>
+                    <code>Suffix(B) = {a, pa, ipa, Lipa, ε}</code>[cite: 11].
+                </p>
+
+                <p><strong>Task 3: List Prefix(B)</strong><br>
+                    Extract leading components from left to right starting from <code>"Lipa"</code>[cite: 11].<br>
+                    <code>Prefix(B) = {ε, L, Li, Lip, Lipa}</code>[cite: 11].
+                </p>
+
+                <p><strong>Task 4: A Concat B</strong><br>
+                    Link string layouts sequentially without changing character order[cite: 11].<br>
+                    <code>A concat B = "NULipa"</code>[cite: 11].
+                </p>
+
+                <p><strong>Task 5: Resolve Reverse Cʳ</strong><br>
+                    Invert every character sequence position completely, preserving the location of empty spaces[cite:
+                    11].<br>
+                    <code>Cʳ = "ecneicS retupmoC"</code>[cite: 11].
+                </p>
+            </div>
+
+            <div class="box tip">
+                <div class="box-title">Self-Assessment Warning</div>
+                <p>Get ready for next week's challenges where we apply these alphabets, powers, and prefix rules to
+                    configure our first formal automaton model: the <strong>Deterministic Finite Automaton
+                        (DFA)</strong>[cite: 11].</p>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE NAVIGATION BUTTONS -->
+        <div class="navigation-controls">
+            <button id="prev-btn" class="btn" onclick="changeTopic(-1)">Previous</button>
+            <span id="topic-indicator" class="topic-indicator">Topic 2 of 7</span>
+            <button id="next-btn" class="btn" onclick="changeTopic(1)">Next Topic</button>
+        </div>
+
+    </div>
+
+    <script>
+        const totalTopics = 7;
+        let currentTopic = 1;
+
+        function changeTopic(direction) {
+            document.getElementById(`topic-${currentTopic}`).classList.remove('active');
+            currentTopic += direction;
+            if (currentTopic < 1) currentTopic = 1;
+            if (currentTopic > totalTopics) currentTopic = totalTopics;
+            document.getElementById(`topic-${currentTopic}`).classList.add('active');
+            document.getElementById('topic-indicator').innerText = `Topic ${currentTopic} of ${totalTopics}`;
+            document.getElementById('prev-btn').disabled = (currentTopic === 1);
+            document.getElementById('next-btn').disabled = (currentTopic === totalTopics);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        changeTopic(0); // Initialize visibility states
+    </script>
+
+
+    <script>!function () { var r = function () { window.parent.postMessage(JSON.stringify({ event: "resize", height: Math.max(document.body.scrollHeight, document.documentElement.offsetHeight) }), "*") }; new ResizeObserver(r).observe(document.body), window.addEventListener("load", r) }();</script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+</body>
+
+</html>

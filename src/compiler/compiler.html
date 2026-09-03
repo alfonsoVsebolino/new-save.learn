@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic PDF Compiler</title>
+  <link rel="stylesheet" href="./academic.css">
+  <style>
+    @media screen {
+      body {
+        background: #f1f5f9;
+        margin: 0;
+        padding-top: 56px;
+      }
+      .no-print-toolbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 54px;
+        background: #0f172a;
+        color: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 10000;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .toolbar-left, .toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .toolbar-title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .toolbar-input {
+        background: #1e293b;
+        border: 1px solid #334155;
+        color: #f8fafc;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        width: 260px;
+      }
+      .toolbar-select {
+        background: #1e293b;
+        border: 1px solid #334155;
+        color: #f8fafc;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 7px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
+      #render-container {
+        max-width: 210mm;
+        margin: 24px auto;
+        background: white;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        padding: 20mm;
+      }
+      #status-msg {
+        font-size: 12px;
+        color: #94a3b8;
+      }
+    }
+    @media print {
+      .no-print-toolbar {
+        display: none !important;
+      }
+      body {
+        padding-top: 0 !important;
+        background: white !important;
+      }
+      #render-container {
+        margin: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="academic-document layout-single-column">
+  <div class="no-print-toolbar">
+    <div class="toolbar-left">
+      <span class="toolbar-title">📄 Academic PDF Compiler</span>
+      <input type="text" id="doc-title-input" class="toolbar-input" placeholder="Document Title" value="Compiled Academic Notes">
+      <span id="section-count" style="font-size: 12px; color: #94a3b8;">0 sections</span>
+    </div>
+    <div class="toolbar-right">
+      <span id="status-msg">Loading...</span>
+      <select id="layout-select" class="toolbar-select">
+        <option value="single-column">Single Column (Report)</option>
+        <option value="two-column">Two Column (IEEE / ACM)</option>
+      </select>
+      <button id="print-btn" class="btn-primary">
+        <span>🖨 Print / Save as PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <main id="render-container">
+    <header class="academic-title-block">
+      <h1 id="doc-main-title">Compiled Academic Notes</h1>
+      <div class="metadata" id="doc-metadata">Assembled via OpenLearning Academic Exporter</div>
+    </header>
+    <div class="academic-body" id="doc-content">
+      <!-- Concatenated sections injected here -->
+    </div>
+  </main>
+
+  <script type="module" src="./compiler.ts"></script>
+</body>
+</html>

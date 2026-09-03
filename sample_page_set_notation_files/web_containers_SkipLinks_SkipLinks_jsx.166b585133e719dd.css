@@ -1,0 +1,1 @@
+#skip-links-mount{position:fixed;z-index:302}skip-links{align-items:center;display:flex;left:0;padding:8px;position:absolute;top:-200px;transition:top .5s ease;width:200px}skip-links .skip-button{background-color:#0b808d;border:none;color:#fff;flex-grow:1;font-size:1.1em;font-weight:600;padding:.5em 1.5em}skip-links.active{top:0}

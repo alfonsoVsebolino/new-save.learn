@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "OpenLearning Academic PDF Exporter",
+  "version": "1.0.0",
+  "description": "Converts multi-page learning content and DOM elements into unified publication-ready academic PDFs.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "sidePanel"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Academic PDF Queue"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenLearning Academic PDF</title>
+  <link rel="stylesheet" href="./sidepanel.css">
+</head>
+<body>
+  <header>
+    <h1><span>📚</span> Academic PDF Queue</h1>
+    <span class="badge" id="queue-badge">0</span>
+  </header>
+
+  <div class="action-bar">
+    <button class="btn btn-primary" id="btn-add-current">
+      <span>➕</span> Add Current Page
+    </button>
+    <button class="btn btn-danger" id="btn-clear-all" title="Clear all queued pages">
+      <span>🗑</span> Clear
+    </button>
+  </div>
+
+  <div id="status-banner" class="status-banner" style="display: none;"></div>
+
+  <div class="queue-container" id="queue-list">
+    <!-- Queued cards rendered here -->
+  </div>
+
+  <footer>
+    <div class="layout-toggle-group">
+      <label for="sidepanel-layout">Layout Style:</label>
+      <select id="sidepanel-layout">
+        <option value="single-column">Single Column (Report)</option>
+        <option value="two-column">Two Column (IEEE/ACM)</option>
+      </select>
+    </div>
+    <button class="btn btn-compile" id="btn-compile-pdf">
+      <span>⚡ Compile PDF</span>
+    </button>
+  </footer>
+
+  <script type="module" src="./sidepanel.ts"></script>
+</body>
+</html>
