@@ -1,5 +1,6 @@
 import { getQueue, getCompilerOptions, saveCompilerOptions } from '../storage/queueStore';
 import { QueuedSection } from '../types';
+import printIcon from '../assets/icons/solar-diskette-bold.svg?raw';
 
 function escapeHtml(str: string): string {
   const div = document.createElement('div');
@@ -64,9 +65,12 @@ export function initCompiler(): void {
     await saveCompilerOptions({ layout });
   });
 
-  printBtn?.addEventListener('click', () => {
-    window.print();
-  });
+  if (printBtn) {
+    printBtn.innerHTML = `${printIcon} <span>Print / Save as PDF</span>`;
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 
   renderDocument();
 }

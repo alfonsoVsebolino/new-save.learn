@@ -68,6 +68,11 @@
         align-items: center;
         gap: 6px;
       }
+      .btn-primary svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
       .btn-primary:hover {
         background: #1d4ed8;
       }
@@ -103,7 +108,7 @@
 <body class="academic-document layout-single-column">
   <div class="no-print-toolbar">
     <div class="toolbar-left">
-      <span class="toolbar-title">📄 Academic PDF Compiler</span>
+      <span class="toolbar-title">📄 newSave: Academic PDF Compiler</span>
       <input type="text" id="doc-title-input" class="toolbar-input" placeholder="Document Title" value="Compiled Academic Notes">
       <span id="section-count" style="font-size: 12px; color: #94a3b8;">0 sections</span>
     </div>
@@ -114,7 +119,7 @@
         <option value="two-column">Two Column (IEEE / ACM)</option>
       </select>
       <button id="print-btn" class="btn-primary">
-        <span>🖨 Print / Save as PDF</span>
+        <span>Print / Save as PDF</span>
       </button>
     </div>
   </div>

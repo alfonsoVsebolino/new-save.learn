@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="canvasBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070A12"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#05070E"/>
+    </linearGradient>
+
+    <!-- Radial Core Glow -->
+    <radialGradient id="warpGlow" cx="60%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#6366F1" stop-opacity="0.3"/>
+      <stop offset="45%" stop-color="#F59E0B" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Book Left Pages Gradient -->
+    <linearGradient id="bookPageGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="60%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#BAE6FD"/>
+    </linearGradient>
+
+    <!-- Morphing Warp Ribbon 1 (Primary Front Surface) -->
+    <linearGradient id="warpStreamPrimary" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="35%" stop-color="#818CF8"/>
+      <stop offset="70%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#FEF08A"/>
+    </linearGradient>
+
+    <!-- Morphing Warp Ribbon (Underside / Inverted Fold) -->
+    <linearGradient id="warpStreamUnderside" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B"/>
+      <stop offset="50%" stop-color="#4338CA"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+
+    <!-- Secondary Harmonic Ribbon -->
+    <linearGradient id="warpStreamSecondary" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#A855F7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Scroll Roll Gradient -->
+    <linearGradient id="scrollRollGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+
+    <!-- Gold Accent / Dowel -->
+    <linearGradient id="goldRod" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#92400E"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="dropGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <!-- Base Canvas Plaque -->
+  <rect width="512" height="512" rx="112" fill="url(#canvasBg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#warpGlow)"/>
+
+  <!-- Logo Mark Container -->
+  <g filter="url(#dropGlow)">
+
+    <!-- BACK COVER (Hardcover Foundation - Left) -->
+    <path d="M 218 410 L 88 358 C 78 354 74 342 77 332 L 96 220 C 98 210 108 205 118 208 L 218 248 Z" 
+          fill="#0B132B" stroke="#1E293B" stroke-width="2"/>
+    
+    <!-- PAGE STACK THICKNESS (Book Edge Left) -->
+    <path d="M 90 354 L 218 402 L 218 392 L 98 344 Z" 
+          fill="#334155"/>
+    <path d="M 94 346 L 218 394 L 218 386 L 102 338 Z" 
+          fill="#475569"/>
+
+    <!-- FANNING PAGES (Left Book Wing) -->
+    <path d="M 218 380 C 160 370 115 352 98 332 L 112 216 C 136 234 182 250 218 258 Z" 
+          fill="url(#bookPageGrad)" opacity="0.45"/>
+
+    <path d="M 218 368 C 166 360 126 342 110 322 L 122 208 C 148 226 190 242 218 248 Z" 
+          fill="url(#bookPageGrad)"/>
+
+    <!-- BOOK CENTRAL SPINE / HINGE -->
+    <path d="M 218 248 L 218 408" 
+          stroke="#0284C7" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- SECONDARY UNDERCURRENT WARP STREAM -->
+    <path d="M 218 382 C 265 390 315 375 348 335 C 382 292 376 230 404 184 L 388 174 C 358 225 356 276 328 310 C 298 345 258 355 218 352 Z" 
+          fill="url(#warpStreamSecondary)"/>
+
+    <!-- UNDERSIDE FOLD OF WARPING SHEET (Reveals dynamic twist) -->
+    <path d="M 218 368 C 275 365 315 330 338 285 C 362 238 360 190 376 150 L 348 140 C 334 185 330 230 308 268 C 285 306 250 332 218 338 Z" 
+          fill="url(#warpStreamUnderside)"/>
+
+    <!-- PRIMARY WARPING BODY (Spine transitioning into Scroll Parchment) -->
+    <path d="M 218 248 C 255 255 292 232 328 194 C 360 160 382 135 412 115 L 434 168 C 404 190 376 220 348 260 C 308 316 266 342 218 368 Z" 
+          fill="url(#warpStreamPrimary)"/>
+
+    <!-- SCROLL UPPER DOWEL / FINIAL -->
+    <path d="M 406 102 L 442 82 C 448 78 456 81 459 87 C 462 94 460 101 454 105 L 420 124 Z" 
+          fill="url(#goldRod)"/>
+    <ellipse cx="448" cy="94" rx="7" ry="12" transform="rotate(-30 448 94)" fill="#FEF08A"/>
+
+    <!-- SCROLL CYLINDER CORE (The rolled parchment) -->
+    <g transform="rotate(-30 408 176)">
+      <!-- Cylinder Body -->
+      <rect x="376" y="112" width="64" height="132" rx="14" fill="url(#scrollRollGrad)"/>
+
+      <!-- Spiral Curl Cap (Top of Roll) -->
+      <ellipse cx="408" cy="112" rx="32" ry="14" fill="#FEF08A" stroke="#D97706" stroke-width="2.5"/>
+      <path d="M 428 112 C 428 118 418 122 408 122 C 394 122 386 116 388 110 C 390 105 398 102 406 104 C 414 106 416 110 414 113 C 412 115 408 116 406 115" 
+            fill="none" stroke="#78350F" stroke-width="2" stroke-linecap="round"/>
+      
+      <!-- Base Curl Rim -->
+      <ellipse cx="408" cy="244" rx="32" ry="14" fill="#B45309"/>
+    </g>
+
+    <!-- SCROLL LOWER DOWEL / FINIAL -->
+    <path d="M 364 252 L 340 295 C 336 302 328 304 322 301 C 315 297 313 289 317 282 L 342 240 Z" 
+          fill="url(#goldRod)"/>
+    <ellipse cx="330" cy="290" rx="6" ry="10" transform="rotate(30 330 290)" fill="#FEF08A"/>
+
+    <!-- TRANSMUTATION PARTICLES / WARP ACCENTS -->
+    <!-- Large Sparkle -->
+    <path d="M 292 195 C 292 205 285 212 275 212 C 285 212 292 220 292 230 C 292 220 300 212 310 212 C 300 212 292 205 292 195 Z" 
+          fill="#FDE047"/>
+    <!-- Small Sparkle Top -->
+    <path d="M 370 95 C 370 102 365 107 358 107 C 365 107 370 112 370 120 C 370 112 375 107 382 107 C 375 107 370 102 370 95 Z" 
+          fill="#BAE6FD"/>
+    <!-- Orbit Sparkle Bottom -->
+    <circle cx="375" cy="355" r="3.5" fill="#F59E0B"/>
+    <circle cx="265" cy="390" r="2.5" fill="#38BDF8"/>
+    <circle cx="342" cy="128" r="2" fill="#FEF08A"/>
+
+    <!-- LINEAR ENERGY ACCENT STROKES -->
+    <path d="M 230 270 C 265 272 300 248 325 215" 
+          fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 240 332 C 275 328 305 295 328 250" 
+          fill="none" stroke="#FEF08A" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  </g>
+</svg>

@@ -9,6 +9,13 @@ import {
   saveCompilerOptions
 } from '../storage/queueStore';
 import { QueuedSection } from '../types';
+import addIcon from '../assets/icons/solar-add-square-broken.svg?raw';
+import trashIcon from '../assets/icons/solar-trash-bin-minimalistic-broken.svg?raw';
+import compileIcon from '../assets/icons/solar-documents-bold.svg?raw';
+import arrowUpIcon from '../assets/icons/solar-alt-arrow-up-line-duotone.svg?raw';
+import arrowDownIcon from '../assets/icons/solar-alt-arrow-down-linear.svg?raw';
+import deleteIcon from '../assets/icons/solar-minus-circle-line-duotone.svg?raw';
+import newSaveLogo from '../assets/logos/newSave.svg?raw';
 
 const queueListEl = document.getElementById('queue-list') as HTMLElement;
 const badgeEl = document.getElementById('queue-badge') as HTMLElement;
@@ -16,6 +23,12 @@ const btnAddCurrent = document.getElementById('btn-add-current') as HTMLButtonEl
 const btnClearAll = document.getElementById('btn-clear-all') as HTMLButtonElement;
 const btnCompilePdf = document.getElementById('btn-compile-pdf') as HTMLButtonElement;
 const layoutSelect = document.getElementById('sidepanel-layout') as HTMLSelectElement;
+const headerTitle = document.querySelector('header h1');
+
+if (headerTitle) headerTitle.innerHTML = `${newSaveLogo} <span>newSave: Academic PDF Queue</span>`;
+if (btnAddCurrent) btnAddCurrent.innerHTML = `${addIcon} Add Current Page`;
+if (btnClearAll) btnClearAll.innerHTML = `${trashIcon} Clear`;
+if (btnCompilePdf) btnCompilePdf.innerHTML = `${compileIcon} Compile PDF`;
 
 async function render(): Promise<void> {
   const queue = await getQueue();
@@ -47,11 +60,11 @@ async function render(): Promise<void> {
     card.innerHTML = `
       <div class="queue-card-header">
         <div class="reorder-btns">
-          <button class="reorder-btn btn-up" title="Move Up" ${index === 0 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>▲</button>
-          <button class="reorder-btn btn-down" title="Move Down" ${index === queue.length - 1 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>▼</button>
+          <button class="reorder-btn btn-up" title="Move Up" ${index === 0 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>${arrowUpIcon}</button>
+          <button class="reorder-btn btn-down" title="Move Down" ${index === queue.length - 1 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>${arrowDownIcon}</button>
         </div>
         <input type="text" class="title-input" value="${item.title.replace(/"/g, '&quot;')}" title="Click to rename section">
-        <button class="delete-btn" title="Remove section">✕</button>
+        <button class="delete-btn" title="Remove section">${deleteIcon}</button>
       </div>
       <div class="card-meta">
         #${index + 1} • ${displayUrl || 'Local source'}
@@ -167,7 +180,7 @@ async function addCurrentPage(): Promise<void> {
     showBanner(`❌ ${err?.message || 'Failed to capture page'}`, 'error', 6000);
   } finally {
     btnAddCurrent.disabled = false;
-    btnAddCurrent.innerHTML = '<span>➕</span> Add Current Page';
+    btnAddCurrent.innerHTML = `${addIcon} Add Current Page`;
     await render();
   }
 }

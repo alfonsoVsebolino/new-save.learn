@@ -33,6 +33,14 @@ header h1 {
   gap: 6px;
 }
 
+header h1 svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: block;
+  border-radius: 4px;
+}
+
 .badge {
   background: #2563eb;
   color: #ffffff;
@@ -62,6 +70,13 @@ header h1 {
   justify-content: center;
   gap: 6px;
   transition: all 0.15s ease;
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: block;
 }
 
 .btn-primary {
@@ -174,6 +189,15 @@ header h1 {
   font-size: 10px;
   line-height: 1;
   padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reorder-btn svg {
+  width: 11px;
+  height: 11px;
+  display: block;
 }
 
 .reorder-btn:hover {
@@ -210,6 +234,15 @@ header h1 {
   font-size: 14px;
   padding: 2px 4px;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn svg {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 .delete-btn:hover {
