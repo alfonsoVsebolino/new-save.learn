@@ -108,3 +108,24 @@ This extension provides an academic publishing workflow:
 ## 📄 License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+
+---
+
+## ⚖️ Legal & Privacy Policies
+
+[![Terms of Service](https://img.shields.io/badge/Terms-ToS-blue.svg)](docs/legal/terms-of-service.md)
+[![Privacy Policy](https://img.shields.io/badge/Privacy-Zero%20Data%20Collection-green.svg)](docs/legal/privacy-policy.md)
+
+Use of **newSave** is governed by our legal policies:
+
+- **[Terms of Service](docs/legal/terms-of-service.md)**:
+  - **Independent Operation**: Not affiliated with, sponsored by, or endorsed by any academic institution or LMS provider.
+  - **Authorized Access Only**: Intended solely for enrolled students with authorized access to their own course modules. Does not bypass authentication or DRM.
+  - **Personal & Non-Commercial Use**: For offline study and personal review only. Redistribution or uploading to academic file-sharing platforms is strictly prohibited.
+  - **As-Is Disclaimer**: Provided without warranties; users are responsible for compliance with institutional acceptable use policies.
+
+- **[Privacy Policy](docs/legal/privacy-policy.md)**:
+  - **Zero Telemetry**: No collection of names, student IDs, IP addresses, credentials, or course content.
+  - **100% Client-Side Execution**: All DOM unwrapping, sanitization, and PDF rendering occur locally in memory; no data is ever transmitted to remote servers.
+  - **Permissions Scoping**: `activeTab` and `scripting` are used solely to extract learning content from active tabs upon user command.
+
