@@ -6,7 +6,7 @@ import { extractTargetDOM } from '../src/content/extractor';
 
 describe('OpenLearning Content Tree Sample Extraction', () => {
   it('unwraps iframe[srcdoc] and extracts all 9 topics in continuous flow', () => {
-    const filePath = path.resolve(__dirname, '../sample_content_tree.html');
+    const filePath = path.resolve(__dirname, '../docs/agents/context/sample_content_tree.html');
     const html = fs.readFileSync(filePath, 'utf-8');
     const dom = new JSDOM(html, { url: 'https://www.openlearning.com/courses/ace/set-notation/' });
 

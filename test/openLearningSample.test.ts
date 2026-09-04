@@ -6,7 +6,7 @@ import { extractTargetDOM } from '../src/content/extractor';
 
 describe('OpenLearning Sample DOM Extraction', () => {
   it('extracts real OpenLearning sample page accurately', () => {
-    const filePath = path.resolve(__dirname, '../sample_page_set_notation.html');
+    const filePath = path.resolve(__dirname, '../docs/agents/context/sample_page_set_notation.html');
     const html = fs.readFileSync(filePath, 'utf-8');
     const dom = new JSDOM(html, { url: 'https://www.openlearning.com/courses/ace/set-notation/' });
 
