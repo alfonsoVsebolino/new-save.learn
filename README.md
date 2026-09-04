@@ -109,6 +109,8 @@ This extension provides an academic publishing workflow:
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
+People are free to use, modify, and/or distribute the program's source code as per the MIT License provision.
+
 ---
 
 ## ⚖️ Legal & Privacy Policies
