@@ -95,4 +95,4 @@ This extension provides an academic publishing workflow:
 
 ## 📄 License
 
-MIT License.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
