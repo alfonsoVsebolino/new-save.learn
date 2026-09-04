@@ -4,7 +4,7 @@
 
 # newSave: OpenLearning Academic PDF Exporter
 
-A Chrome Manifest V3 extension that extracts, normalizes, and concatenates fragmented OpenLearning course modules into a unified, publication-ready academic PDF.
+A Chrome Manifest V3 extension that extracts, normalizes, and concatenates fragmented OpenLearning course modules into a unified, study-ready academic PDF.
 
 ---
 
