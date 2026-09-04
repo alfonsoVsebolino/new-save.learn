@@ -14,6 +14,7 @@ async function runBuild() {
         input: {
           sidepanel: resolve(import.meta.dirname, 'src/sidepanel/sidepanel.html'),
           compiler: resolve(import.meta.dirname, 'src/compiler/compiler.html'),
+          onboarding: resolve(import.meta.dirname, 'src/onboarding/onboarding.html'),
           background: resolve(import.meta.dirname, 'src/background/serviceWorker.ts')
         },
         output: {

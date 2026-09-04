@@ -20,3 +20,8 @@ export interface ExtensionMessage {
   type: 'QUEUE_SECTION' | 'GET_QUEUE' | 'REMOVE_SECTION' | 'REORDER_QUEUE' | 'UPDATE_SECTION_TITLE' | 'CLEAR_QUEUE' | 'COMPILE_PDF';
   payload?: any;
 }
+
+export interface LegalConsentRecord {
+  agreed: boolean;
+  timestamp: number;
+}

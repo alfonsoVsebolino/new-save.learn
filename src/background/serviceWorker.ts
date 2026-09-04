@@ -11,11 +11,15 @@ async function updateBadge(): Promise<void> {
   }
 }
 
-chrome.runtime.onInstalled.addListener(async () => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
     await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
   }
   await updateBadge();
+  if (details.reason === 'install') {
+    const onboardingUrl = chrome.runtime.getURL('src/onboarding/onboarding.html');
+    chrome.tabs.create({ url: onboardingUrl });
+  }
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {

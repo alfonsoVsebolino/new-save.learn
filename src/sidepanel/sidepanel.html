@@ -27,6 +27,19 @@
     <!-- Queued cards rendered here -->
   </div>
 
+  <div id="consent-gate" class="consent-gate-overlay" style="display: none;">
+    <div class="consent-gate-card">
+      <div class="consent-gate-icon">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <h2>Setup Required</h2>
+      <p>Please review and agree to the Terms of Service & Privacy Policy to use newSave.</p>
+      <button class="btn btn-primary" id="btn-open-consent">Review & Agree</button>
+    </div>
+  </div>
+
   <footer>
     <div class="layout-toggle-group">
       <label for="sidepanel-layout">Layout Style:</label>

@@ -8,6 +8,7 @@ import {
   getCompilerOptions,
   saveCompilerOptions
 } from '../storage/queueStore';
+import { hasAgreedToLegal, CONSENT_STORAGE_KEY } from '../storage/consentStore';
 import { QueuedSection } from '../types';
 import addIcon from '../assets/icons/solar-add-square-broken.svg?raw';
 import trashIcon from '../assets/icons/solar-trash-bin-minimalistic-broken.svg?raw';
@@ -24,11 +25,34 @@ const btnClearAll = document.getElementById('btn-clear-all') as HTMLButtonElemen
 const btnCompilePdf = document.getElementById('btn-compile-pdf') as HTMLButtonElement;
 const layoutSelect = document.getElementById('sidepanel-layout') as HTMLSelectElement;
 const headerTitle = document.querySelector('header h1');
+const consentGateEl = document.getElementById('consent-gate') as HTMLElement;
+const btnOpenConsent = document.getElementById('btn-open-consent') as HTMLButtonElement;
 
 if (headerTitle) headerTitle.innerHTML = `${newSaveLogo} <span>newSave: Academic PDF Queue</span>`;
 if (btnAddCurrent) btnAddCurrent.innerHTML = `${addIcon} Add Current Page`;
 if (btnClearAll) btnClearAll.innerHTML = `${trashIcon} Clear`;
 if (btnCompilePdf) btnCompilePdf.innerHTML = `${compileIcon} Compile PDF`;
+if (btnOpenConsent) {
+  btnOpenConsent.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('src/onboarding/onboarding.html') });
+  });
+}
+
+async function checkConsent(): Promise<boolean> {
+  const agreed = await hasAgreedToLegal();
+  if (!agreed) {
+    if (consentGateEl) consentGateEl.style.display = 'flex';
+    btnAddCurrent.disabled = true;
+    btnClearAll.disabled = true;
+    btnCompilePdf.disabled = true;
+    return false;
+  }
+  if (consentGateEl) consentGateEl.style.display = 'none';
+  btnAddCurrent.disabled = false;
+  btnClearAll.disabled = false;
+  btnCompilePdf.disabled = false;
+  return true;
+}
 
 async function render(): Promise<void> {
   const queue = await getQueue();
@@ -125,6 +149,11 @@ function showBanner(message: string, type: 'info' | 'success' | 'error', duratio
 }
 
 async function addCurrentPage(): Promise<void> {
+  const allowed = await checkConsent();
+  if (!allowed) {
+    showBanner('❌ Please complete setup and agree to Terms of Service first.', 'error', 4000);
+    return;
+  }
   btnAddCurrent.disabled = true;
   btnAddCurrent.textContent = 'Adding...';
   showBanner('⏳ Extracting content from active tab...', 'info', 0);
@@ -186,6 +215,7 @@ async function addCurrentPage(): Promise<void> {
 }
 
 btnClearAll.addEventListener('click', async () => {
+  if (!(await checkConsent())) return;
   if (confirm('Clear all queued sections?')) {
     await clearQueue();
     await render();
@@ -194,7 +224,8 @@ btnClearAll.addEventListener('click', async () => {
 
 btnAddCurrent.addEventListener('click', addCurrentPage);
 
-btnCompilePdf.addEventListener('click', () => {
+btnCompilePdf.addEventListener('click', async () => {
+  if (!(await checkConsent())) return;
   chrome.runtime.sendMessage({ action: 'OPEN_COMPILER' });
 });
 
@@ -203,9 +234,14 @@ layoutSelect.addEventListener('change', async () => {
 });
 
 if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
-  chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local' && changes.openlearning_queue) {
-      render();
+  chrome.storage.onChanged.addListener(async (changes, area) => {
+    if (area === 'local') {
+      if (changes[CONSENT_STORAGE_KEY]) {
+        await checkConsent();
+      }
+      if (changes.openlearning_queue) {
+        render();
+      }
     }
   });
 }
@@ -215,5 +251,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (options.layout) {
     layoutSelect.value = options.layout;
   }
-  await render();
+  const agreed = await checkConsent();
+  if (agreed) {
+    await render();
+  }
 });
