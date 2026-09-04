@@ -1,7 +1,5 @@
-<img src="src/assets/logos/newSave.png" style="display: block; margin: auto; width: 10%"/>
+<img src="src/assets/logos/newSave.png" style="display: block; margin: auto; width: 15%; align-self: center;"/>
 <br>
-<br> 
-
 # newSave: OpenLearning Academic PDF Exporter
 
 A Chrome Manifest V3 extension that extracts, normalizes, and concatenates fragmented OpenLearning course modules into a unified, publication-ready academic PDF.
