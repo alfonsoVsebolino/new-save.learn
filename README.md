@@ -46,7 +46,15 @@ This extension provides an academic publishing workflow:
 - Google Chrome (or Chromium-based browser: Brave, Edge) version 116+ (requires Manifest V3 Side Panel support).
 - Node.js 18+ and npm (only required if building from source).
 
-### Step-by-Step Installation
+### Option A: Quick Install (Pre-built Release)
+
+1. Download the latest `newSave-v*.zip` from [Releases](https://github.com/alfonsoVsebolino/new-save.learn/releases).
+2. Extract the ZIP archive into a directory.
+3. Open Google Chrome and navigate to `chrome://extensions/`.
+4. Toggle **Developer mode** on (top-right switch).
+5. Click **Load unpacked** (top-left button) and select the extracted directory.
+
+### Option B: Build from Source
 
 1. **Clone the Repository**:
    ```bash

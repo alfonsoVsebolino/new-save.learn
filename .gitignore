@@ -3,6 +3,7 @@ node_modules/
 
 # Production build outputs
 dist/
+*.zip
 
 # Offline downloaded web assets (test fixtures only need the standalone .html files)
 sample_page_set_notation_files/

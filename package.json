@@ -7,6 +7,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && node build.js",
+    "package": "npm run build && cd dist && zip -rq ../newSave-v1.0.0.zip . && cd ..",
     "test": "vitest run"
   },
   "devDependencies": {
